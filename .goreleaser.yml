@@ -1,7 +1,7 @@
 release:
   github:
     owner: Matt-Gleich
-    name: goTemplate
+    name: Simultaneous-Updates
   prerelease: auto
 before:
   hooks:
@@ -24,7 +24,7 @@ brews:
       name: homebrew-taps
     folder: Formula
     homepage: 'https://mattglei.ch'
-    description: 'goTemplate'
+    description: '🏎 One command to update everything'
     commit_author:
       name: Matt-Gleich
       email: matthewgleich@gmail.com

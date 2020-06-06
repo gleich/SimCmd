@@ -2,4 +2,4 @@ module github.com/Matt-Gleich/Simultaneous-Updates
 
 go 1.14
 
-require github.com/mitchellh/go-homedir v1.1.0 // indirect
+require gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c

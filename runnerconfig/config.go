@@ -17,7 +17,7 @@ func Path() string {
 			fmt.Println(err)
 			os.Exit(0)
 		}
-		configPath = path + "/"
+		configPath = path + "/updateRunner.yml"
 	} else {
 		configPath = os.Args[1]
 	}

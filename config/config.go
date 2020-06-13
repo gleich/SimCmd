@@ -1,4 +1,4 @@
-package runnerconfig
+package config
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ func Path() string {
 	return configPath
 }
 
-// Extract ... Get all the commands from the config
+// Extract ... Get all the sections and their corresponding commands from the config
 func Extract(path string) map[string][]string {
 	file, err := ioutil.ReadFile(path)
 	if err != nil {

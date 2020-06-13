@@ -1,9 +1,6 @@
-# goTemplate
+# SimCmd
 
-## Fill In
-
-1. [go.mod](./go.mod) (Name of module)
-2. [.goreleaser.yml](./.goreleaser.yml) (Brew description)
+🏎 Run terminal commands simultaneously with ease!
 
 ## Contributors
 

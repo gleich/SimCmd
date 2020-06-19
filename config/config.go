@@ -8,8 +8,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Path ... Get the path of the runner config
-func Path() string {
+// Extract ... Get all the sections and their corresponding commands from the config
+func Extract() map[string][]string {
 	var configPath string
 	if len(os.Args) == 1 {
 		path, err := os.UserHomeDir()
@@ -21,12 +21,8 @@ func Path() string {
 	} else {
 		configPath = os.Args[1]
 	}
-	return configPath
-}
 
-// Extract ... Get all the sections and their corresponding commands from the config
-func Extract(path string) map[string][]string {
-	file, err := ioutil.ReadFile(path)
+	file, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)

@@ -1,31 +1,36 @@
 package main
 
 import (
+	"fmt"
+	"sync"
+
 	"github.com/Matt-Gleich/Simultaneous-Updates/config"
 	"github.com/Matt-Gleich/Simultaneous-Updates/section"
 	"github.com/buger/goterm"
 )
 
 func main() {
-	configContents := config.Extract(config.Path())
-	var sectionStatuses map[string]chan map[string]section.Status
+	var (
+		mutex           sync.Mutex
+		wg              sync.WaitGroup
+		sectionsRunning int
+	)
 
-	for sectionName, commands := range configContents {
-		go section.ParseAndRun(commands, sectionStatuses[sectionName])
+	config := config.Extract()
+	sectionStatuses := map[string]map[string]section.Status{}
+	for sectionName, commands := range config {
+		wg.Add(1)
+		sectionsRunning++
+		go section.Initialize(sectionName, commands, sectionStatuses, &mutex, &sectionsRunning, &wg)
 	}
 
-	for {
-		// Checking to see if they all finished
-		var allDone bool
-		for _, section := range sectionStatuses {
-			_, open := <-section
-			allDone = !open
-		}
-		if allDone {
-			break
-		}
+	wg.Wait()
 
-		goterm.Clear()
-
+	goterm.Clear()
+	goterm.MoveCursor(1, 1)
+	for sectionName, statuses := range sectionStatuses {
+		goterm.Println(statuses)
+		goterm.Println(goterm.Color(fmt.Sprintf("%v ⋯ %v commands", sectionName, len(statuses)), goterm.GREEN))
 	}
+	goterm.Flush()
 }

@@ -1,39 +1,23 @@
 package section
 
 import (
-	"os/exec"
-	"strings"
+	"sync"
 )
 
-// ParseAndRun ... Parse the commands and run them
-func ParseAndRun(commands []string, channel chan map[string]Status) {
-	statuses := map[string]Status{}
-
-	// Setting initial status of not started
+// Initialize ... Initialize a section
+func Initialize(sectionName string, commands []string, statuses map[string]map[string]Status, mutex *sync.Mutex, sectionsRunning *int, wg *sync.WaitGroup) {
+	// Setting initial as NotStarted
+	mutex.Lock()
+	commandsAdded := 0
 	for _, command := range commands {
-		statuses[command] = NotStarted
-	}
-	channel <- statuses
-
-	for _, command := range commands {
-		statuses[command] = Started
-		channel <- statuses
-
-		// Parsing and running
-		chunks := strings.Split(command, " ")
-		var err error
-		if len(chunks) == 0 {
-			err = exec.Command(chunks[0]).Run()
-		} else {
-			err = exec.Command(chunks[0], chunks[0:]...).Run()
+		if commandsAdded == 0 {
+			statuses[sectionName] = make(map[string]Status)
 		}
-		if err != nil {
-			statuses[command] = Failed
-			channel <- statuses
-		}
-		statuses[command] = Success
-		channel <- statuses
+		statuses[sectionName][command] = NotStarted
+		commandsAdded++
 	}
+	mutex.Unlock()
 
-	close(channel)
+	*sectionsRunning--
+	wg.Done()
 }

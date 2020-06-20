@@ -1,5 +1,5 @@
 Homebrew:
-  - brew update
-  - brew upgrade
+  - ls
+  - echo Hello
 Flutter:
-  - flutter upgrade
+  - pwd

@@ -19,21 +19,28 @@ func main() {
 	config := config.Extract()
 	sectionStatuses := map[string]map[string]section.Status{}
 
+	// fmt.Println("Extracted config")
+
 	// Initalizing the section statuses
 	for sectionName, commands := range config {
 		wg.Add(1)
-		go section.Initialize(sectionName, commands, sectionStatuses, &mutex, &wg)
+		go section.Initialize(sectionName, commands, sectionStatuses, &mutex, &wg, &sectionsRunning)
 	}
 	wg.Wait()
+
+	// fmt.Println("Initalized all sections")
 
 	// Running the sections
 	for sectionName, commands := range config {
 		go section.Run(sectionName, commands, sectionStatuses, &mutex, &sectionsRunning)
 	}
 
-	goterm.Clear()
-	goterm.MoveCursor(1, 1)
+	// fmt.Println("Kicked off all sections")
+
 	for sectionsRunning != 0 {
+		goterm.Clear()
+		goterm.MoveCursor(1, 1)
+		goterm.Println("Starting cycle")
 		for sectionName, statuses := range sectionStatuses {
 			goterm.Println(statuses)
 			goterm.Println(goterm.Color(fmt.Sprintf("%v ⋯ %v commands", sectionName, len(statuses)), goterm.GREEN))

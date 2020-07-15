@@ -4,10 +4,13 @@ import (
 	"os/exec"
 	"strings"
 	"sync"
+
+	"github.com/buger/goterm"
 )
 
 // Initialize ... Initialize a section
-func Initialize(sectionName string, commands []string, statuses map[string]map[string]Status, mutex *sync.Mutex, wg *sync.WaitGroup) {
+func Initialize(sectionName string, commands []string, statuses map[string]map[string]Status, mutex *sync.Mutex, wg *sync.WaitGroup, sectionsRunning *int) {
+	*sectionsRunning++
 	mutex.Lock()
 	commandsAdded := 0
 	for _, command := range commands {
@@ -23,7 +26,7 @@ func Initialize(sectionName string, commands []string, statuses map[string]map[s
 
 // Run ... Run a section
 func Run(sectionName string, commands []string, statuses map[string]map[string]Status, mutex *sync.Mutex, sectionsRunning *int) {
-	*sectionsRunning++
+	goterm.Println("Running section:" + sectionName)
 	for _, command := range commands {
 		chunks := strings.Split(command, " ")
 		cmd := exec.Command(chunks[0], chunks[1:]...)

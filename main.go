@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/Matt-Gleich/Simultaneous-Updates/config"
-	"github.com/Matt-Gleich/Simultaneous-Updates/section"
+	"github.com/gleich/Simultaneous-Updates/config"
+	"github.com/gleich/Simultaneous-Updates/section"
 	"github.com/buger/goterm"
 )
 

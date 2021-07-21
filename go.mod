@@ -1,4 +1,4 @@
-module github.com/Matt-Gleich/Simultaneous-Updates
+module github.com/gleich/Simultaneous-Updates
 
 go 1.14
 

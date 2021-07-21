@@ -1,0 +1,2 @@
+echo "hello world" >> wow.txt
+echo "1234" >> wow.txt

@@ -1,5 +1,0 @@
-Homebrew:
-  - brew update
-  - brew cask update
-Flutter:
-  - flutter upgrade
